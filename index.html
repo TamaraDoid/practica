@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="ru">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+  <meta content="#f4f7fb" name="theme-color"/>
+  <meta content="Демо-платформа управляющей компании: обращения жителей, информация о доме, тарифы и начисления." name="description"/>
+  <script>
+   try {
+      const savedTheme = localStorage.getItem('zhkh-theme');
+      document.documentElement.dataset.theme = ['light', 'dark', 'contrast'].includes(savedTheme)
+        ? savedTheme
+        : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    } catch (error) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  </script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+  <title>
+   ДомКонтроль — платформа ЖКХ
+  </title>
+ </head>
+ <body>
+  <a class="skip-link" href="#main">
+   Перейти к основному контенту
+  </a>
+  <header class="topbar">
+   <button aria-controls="sidebar" aria-expanded="false" aria-label="Открыть меню" class="icon-button menu-toggle" id="menuToggle">
+    <span class="hamburger">
+    </span>
+   </button>
+   <a aria-label="ДомКонтроль — главная" class="brand" href="#dashboard">
+    <span class="brand-mark">
+     ⌂
+    </span>
+    <span>
+     Дом
+     <span class="brand-light">
+      Контроль
+     </span>
+     <small>
+      КАБИНЕТ ЖИТЕЛЯ
+     </small>
+    </span>
+   </a>
+   <label class="global-search">
+    <span aria-hidden="true">
+     ⌕
+    </span>
+    <input aria-label="Поиск по платформе" id="globalSearch" placeholder="Найти обращение, услугу…" type="search"/>
+    <kbd>
+     ⌘ K
+    </kbd>
+   </label>
+   <section aria-label="Настройки" class="top-actions">
+    <button aria-label="Переключить тему" class="icon-button" id="themeToggle" title="Переключить тему">
+     ◐
+    </button>
+    <button aria-label="Профиль жителя" class="profile-button" id="profileButton">
+     <span class="avatar">
+      АК
+     </span>
+     <span class="profile-copy">
+      <strong>
+       Алексей К.
+      </strong>
+      <small>
+       Житель · кв. 48
+      </small>
+     </span>
+     <span aria-hidden="true">
+      ⌄
+     </span>
+    </button>
+   </section>
+  </header>
+  <div class="app-layout">
+   <aside aria-label="Основная навигация" class="sidebar" id="sidebar">
+    <section class="building-switch">
+     <span class="building-icon">
+      ▦
+     </span>
+     <span>
+      <strong>
+       ЖК «Северный парк»
+      </strong>
+      <small>
+       Корпус 2 · подъезд 3
+      </small>
+     </span>
+     <button aria-label="Информация о доме" class="plain-icon" id="buildingInfo">
+      ⌄
+     </button>
+    </section>
+    <p class="nav-label">
+     РАБОЧЕЕ ПРОСТРАНСТВО
+    </p>
+    <nav class="main-nav" id="mainNav">
+     <a class="nav-link active" data-view="dashboard" href="#dashboard">
+      <span>
+       ▦
+      </span>
+      Обзор
+     </a>
+     <a class="nav-link" data-view="requests" href="#requests">
+      <span>
+       ✉
+      </span>
+      Обращения
+      <b class="nav-count" id="openRequestCount">
+       4
+      </b>
+     </a>
+     <a class="nav-link" data-view="home" href="#home">
+      <span>
+       ⌂
+      </span>
+      Мой дом
+     </a>
+     <a class="nav-link" data-view="charges" href="#charges">
+      <span>
+       ▤
+      </span>
+      Начисления и оплата
+     </a>
+     <a class="nav-link" data-view="tariffs" href="#tariffs">
+      <span>
+       ₽
+      </span>
+      Тарифы и услуги
+     </a>
+     <a class="nav-link" data-view="news" href="#news">
+      <span>
+       ▧
+      </span>
+      Новости дома
+     </a>
+    </nav>
+    <p class="nav-label nav-label-bottom">
+     СВЯЗЬ
+    </p>
+    <nav class="main-nav">
+     <a class="nav-link" data-view="contacts" href="#contacts">
+      <span>
+       ☏
+      </span>
+      Контакты УК
+     </a>
+     <button class="nav-link nav-action" id="helpButton">
+      <span>
+       ?
+      </span>
+      Помощь и поддержка
+     </button>
+    </nav>
+    <section class="sidebar-help">
+     <span class="help-spark">
+      ✦
+     </span>
+     <strong>
+      Есть вопрос?
+     </strong>
+     <p>
+      Мы поможем разобраться с услугами дома.
+     </p>
+     <button class="text-button" id="helpCardButton">
+      Связаться с УК
+      <span>
+       →
+      </span>
+     </button>
+    </section>
+    <footer class="sidebar-footer">
+     ДомКонтроль
+     <span>
+      v1.0 · демо-режим
+     </span>
+    </footer>
+   </aside>
+   <button aria-label="Закрыть меню" class="sidebar-overlay" id="sidebarOverlay">
+   </button>
+   <main class="main-content" id="main" tabindex="-1">
+    <section class="page-heading">
+     <div>
+      <p class="eyebrow" id="pageEyebrow">
+       ПЯТНИЦА, 9 ОКТЯБРЯ 2026
+      </p>
+      <h1 id="pageTitle">
+       Добрый день, Алексей
+       <span class="wave">
+        ✦
+       </span>
+      </h1>
+      <p class="page-subtitle" id="pageSubtitle">
+       Вот что происходит в вашем доме сегодня.
+      </p>
+     </div>
+     <button class="button button-primary" id="newRequestButton">
+      <span>
+       ＋
+      </span>
+      Новое обращение
+     </button>
+    </section>
+    <section aria-labelledby="pageTitle" class="view active" id="view-dashboard">
+     <section class="hero-card">
+      <span class="hero-orb orb-one">
+      </span>
+      <span class="hero-orb orb-two">
+      </span>
+      <div class="hero-content">
+       <span class="hero-label">
+        <span class="status-dot">
+        </span>
+        ВАШ ДОМ ПОД КОНТРОЛЕМ
+       </span>
+       <h2>
+        Комфорт начинается
+        <br/>
+        с заботы о доме.
+       </h2>
+       <p>
+        Следите за обращениями, начислениями и новостями в одном месте.
+       </p>
+       <button class="button button-hero" data-go="home">
+        Информация о доме
+        <span>
+         →
+        </span>
+       </button>
+      </div>
+      <section aria-label="Иллюстрация жилого дома" class="hero-house">
+       <span class="sun">
+       </span>
+       <span class="cloud cloud-a">
+       </span>
+       <span class="cloud cloud-b">
+       </span>
+       <span class="house-building building-back">
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+       </span>
+       <span class="house-building building-front">
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+        <i>
+        </i>
+       </span>
+       <span class="tree tree-a">
+       </span>
+       <span class="tree tree-b">
+       </span>
+      </section>
+     </section>
+     <section aria-label="Сводка по дому" class="stat-grid">
+      <article class="stat-card">
+       <span class="stat-icon icon-blue">
+        ✉
+       </span>
+       <span class="stat-label">
+        Мои обращения
+       </span>
+       <strong class="stat-number" id="statRequests">
+        4
+       </strong>
+       <span class="stat-foot">
+        <span class="mini-dot blue-dot">
+        </span>
+        <span id="statRequestsFoot">
+         2 на рассмотрении
+        </span>
+       </span>
+      </article>
+      <article class="stat-card">
+       <span class="stat-icon icon-green">
+        ₽
+       </span>
+       <span class="stat-label">
+        К оплате за октябрь
+       </span>
+       <strong class="stat-number" id="statBalance">
+        6 480,50 ₽
+       </strong>
+       <span class="stat-foot">
+        <span class="mini-dot green-dot">
+        </span>
+        Срок до 10 ноября
+       </span>
+      </article>
+      <article class="stat-card">
+       <span class="stat-icon icon-orange">
+        ⌂
+       </span>
+       <span class="stat-label">
+        Плановые работы
+       </span>
+       <strong class="stat-number" id="statWorks">
+        2
+       </strong>
+       <span class="stat-foot">
+        <span class="mini-dot orange-dot">
+        </span>
+        На ближайшей неделе
+       </span>
+      </article>
+      <article class="stat-card">
+       <span class="stat-icon icon-purple">
+        ✓
+       </span>
+       <span class="stat-label">
+        Дом в порядке
+       </span>
+       <strong class="stat-number">
+        94
+        <span class="percent">
+         %
+        </span>
+       </strong>
+       <span class="stat-foot">
+        <span class="mini-dot purple-dot">
+        </span>
+        По оценке жильцов
+       </span>
+      </article>
+     </section>
+     <section class="dashboard-grid">
+      <section class="panel requests-panel">
+       <header class="panel-header">
+        <div>
+         <h2>
+          Последние обращения
+         </h2>
+         <p>
+          Статус ваших заявок
+         </p>
+        </div>
+        <button class="text-button" data-go="requests">
+         Все обращения
+         <span>
+          →
+         </span>
+        </button>
+       </header>
+       <section aria-live="polite" class="request-list" id="recentRequests">
+       </section>
+      </section>
+      <section class="panel bill-panel">
+       <header class="panel-header">
+        <div>
+         <h2>
+          Начисления
+         </h2>
+         <p>
+          К оплате за октябрь 2026
+         </p>
+        </div>
+        <span class="bill-icon">
+         ▤
+        </span>
+       </header>
+       <p class="bill-total" id="billTotal">
+        6 480,50
+        <span>
+         ₽
+        </span>
+       </p>
+       <p class="bill-caption">
+        Сумма к оплате
+       </p>
+       <section class="bill-progress">
+        <span>
+        </span>
+       </section>
+       <section class="bill-dates">
+        <span>
+         Счёт сформирован
+        </span>
+        <strong>
+         01.10.2026
+        </strong>
+       </section>
+       <section class="bill-dates">
+        <span>
+         Оплатить до
+        </span>
+        <strong class="date-alert">
+         10.11.2026
+        </strong>
+       </section>
+       <button class="button button-primary button-wide" data-go="charges">
+        Посмотреть начисления
+        <span>
+         →
+        </span>
+       </button>
+       <p class="secure-note">
+        ▣ Безопасная демонстрация · оплата не списывается
+       </p>
+      </section>
+     </section>
+     <section class="dashboard-grid lower-grid">
+      <section class="panel news-panel">
+       <header class="panel-header">
+        <div>
+         <h2>
+          Новости и объявления
+         </h2>
+         <p>
+          Важное для вашего дома
+         </p>
+        </div>
+        <button class="text-button" data-go="news">
+         Все новости
+         <span>
+          →
+         </span>
+        </button>
+       </header>
+       <section class="news-list" id="newsPreview">
+       </section>
+      </section>
+      <section class="panel works-panel">
+       <header class="panel-header">
+        <div>
+         <h2>
+          Плановые работы
+         </h2>
+         <p>
+          Ближайшие события
+         </p>
+        </div>
+        <span class="calendar-icon">
+         ▦
+        </span>
+       </header>
+       <section class="work-list" id="worksPreview">
+       </section>
+       <button class="button button-secondary button-wide" data-go="home">
+        График работ
+       </button>
+      </section>
+     </section>
+    </section>
+    <section class="view" id="view-requests">
+     <header class="section-intro">
+      <div>
+       <h2>
+        Обращения жителей
+       </h2>
+       <p>
+        Создавайте заявки и следите за их статусом.
+       </p>
+      </div>
+      <button class="button button-primary" id="newRequestButton2">
+       ＋ Новое обращение
+      </button>
+     </header>
+     <section class="panel">
+      <section class="filter-bar">
+       <label class="field search-field">
+        <span>
+         Поиск
+        </span>
+        <input id="requestSearch" placeholder="Номер или название обращения" type="search"/>
+       </label>
+       <label class="field">
+        <span>
+         Статус
+        </span>
+        <select id="requestStatus">
+         <option value="all">
+          Все статусы
+         </option>
+         <option>
+          Новое
+         </option>
+         <option>
+          В работе
+         </option>
+         <option>
+          Ожидает ответа
+         </option>
+         <option>
+          Выполнено
+         </option>
+        </select>
+       </label>
+       <label class="field">
+        <span>
+         Приоритет
+        </span>
+        <select id="requestPriority">
+         <option value="all">
+          Любой
+         </option>
+         <option>
+          Высокий
+         </option>
+         <option>
+          Обычный
+         </option>
+         <option>
+          Низкий
+         </option>
+        </select>
+       </label>
+       <button class="button button-secondary filter-reset" id="resetRequestFilters">
+        Сбросить
+       </button>
+      </section>
+      <section aria-live="polite" class="request-list full-request-list" id="requestsList">
+      </section>
+      <footer class="list-footer">
+       <span id="requestResultCount">
+        Показано 15 обращений
+       </span>
+       <nav aria-label="Страницы обращений" class="pagination" id="requestPagination">
+       </nav>
+      </footer>
+     </section>
+    </section>
+    <section class="view" id="view-home">
+     <header class="section-intro">
+      <div>
+       <h2>
+        Мой дом
+       </h2>
+       <p>
+        Информация о здании, управляющей компании и работах.
+       </p>
+      </div>
+     </header>
+     <section class="home-summary panel">
+      <section class="home-art">
+       <span class="home-art-label">
+        ВАШ АДРЕС
+       </span>
+       <h2>
+        ЖК «Северный парк»
+       </h2>
+       <p>
+        г. Москва, ул. Лесная, д. 18, корп. 2
+       </p>
+       <span class="home-art-house">
+        ⌂
+       </span>
+      </section>
+      <section class="home-facts" id="homeFacts">
+      </section>
+     </section>
+     <section class="two-column-panels">
+      <section class="panel">
+       <header class="panel-header">
+        <div>
+         <h2>
+          Плановые работы
+         </h2>
+         <p>
+          Работы и обслуживание общедомовых систем
+         </p>
+        </div>
+       </header>
+       <section class="work-list" id="allWorks">
+       </section>
+      </section>
+      <section class="panel">
+       <header class="panel-header">
+        <div>
+         <h2>
+          Управляющая компания
+         </h2>
+         <p>
+          Контакты и часы работы
+         </p>
+        </div>
+       </header>
+       <section class="detail-list" id="companyDetails">
+       </section>
+       <button class="button button-secondary button-wide" data-go="contacts">
+        Все контакты
+       </button>
+      </section>
+     </section>
+    </section>
+    <section class="view" id="view-charges">
+     <header class="section-intro">
+      <div>
+       <h2>
+        Начисления и оплата
+       </h2>
+       <p>
+        Детализация коммунальных услуг и история операций.
+       </p>
+      </div>
+      <button class="button button-secondary" id="downloadCharges">
+       ↓ Скачать квитанцию
+      </button>
+     </header>
+     <section class="charges-summary">
+      <article class="panel charges-main">
+       <span class="stat-label">
+        К оплате за октябрь 2026
+       </span>
+       <p class="bill-total">
+        6 480,50
+        <span>
+         ₽
+        </span>
+       </p>
+       <span class="badge badge-warning">
+        Ожидает оплаты
+       </span>
+       <p class="muted small">
+        Оплатить до 10 ноября 2026
+       </p>
+       <button class="button button-primary" id="payButton">
+        Оплатить в демо-режиме
+       </button>
+       <p class="secure-note">
+        Это демонстрация: реальные платежи не выполняются.
+       </p>
+      </article>
+      <article class="panel">
+       <h3>
+        Сведения о лицевом счёте
+       </h3>
+       <section class="detail-list" id="accountDetails">
+       </section>
+      </article>
+     </section>
+     <section class="panel table-panel">
+      <header class="panel-header">
+       <div>
+        <h2>
+         Детализация начислений
+        </h2>
+        <p>
+         Тарифы и объём потребления за октябрь
+        </p>
+       </div>
+       <label class="field compact-field">
+        <span>
+         Период
+        </span>
+        <select id="chargePeriod">
+         <option>
+          Октябрь 2026
+         </option>
+         <option>
+          Сентябрь 2026
+         </option>
+         <option>
+          Август 2026
+         </option>
+        </select>
+       </label>
+      </header>
+      <section class="table-scroll">
+       <table>
+        <caption>
+         Начисления по коммунальным и жилищным услугам
+        </caption>
+        <thead>
+         <tr>
+          <th scope="col">
+           Услуга
+          </th>
+          <th scope="col">
+           Объём
+          </th>
+          <th scope="col">
+           Тариф
+          </th>
+          <th scope="col">
+           Начислено
+          </th>
+          <th scope="col">
+           Статус
+          </th>
+         </tr>
+        </thead>
+        <tbody id="chargesTable">
+        </tbody>
+        <tfoot>
+         <tr>
+          <th colspan="3" scope="row">
+           Итого за период
+          </th>
+          <td id="chargesGrandTotal">
+           6 480,50 ₽
+          </td>
+          <td>
+           К оплате
+          </td>
+         </tr>
+        </tfoot>
+       </table>
+      </section>
+     </section>
+     <section class="panel table-panel">
+      <header class="panel-header">
+       <div>
+        <h2>
+         История начислений
+        </h2>
+        <p>
+         Предыдущие периоды
+        </p>
+       </div>
+      </header>
+      <section class="table-scroll">
+       <table>
+        <caption>
+         История начислений за предыдущие месяцы
+        </caption>
+        <thead>
+         <tr>
+          <th scope="col">
+           Период
+          </th>
+          <th scope="col">
+           Сумма
+          </th>
+          <th scope="col">
+           Дата оплаты
+          </th>
+          <th scope="col">
+           Статус
+          </th>
+         </tr>
+        </thead>
+        <tbody id="chargeHistory">
+        </tbody>
+       </table>
+      </section>
+     </section>
+    </section>
+    <section class="view" id="view-tariffs">
+     <header class="section-intro">
+      <div>
+       <h2>
+        Тарифы и услуги
+       </h2>
+       <p>
+        Действующие тарифы управляющей компании и поставщиков.
+       </p>
+      </div>
+      <label class="field compact-field">
+       <span>
+        Поиск услуги
+       </span>
+       <input id="tariffSearch" placeholder="Например, отопление" type="search"/>
+      </label>
+     </header>
+     <section class="tariff-grid" id="tariffGrid">
+     </section>
+     <p class="disclaimer">
+      Тарифы и суммы в проекте демонстрационные и не являются официальными начислениями.
+     </p>
+    </section>
+    <section class="view" id="view-news">
+     <header class="section-intro">
+      <div>
+       <h2>
+        Новости дома
+       </h2>
+       <p>
+        Объявления, плановые работы и важная информация.
+       </p>
+      </div>
+     </header>
+     <section class="all-news-grid" id="allNews">
+     </section>
+    </section>
+    <section class="view" id="view-contacts">
+     <header class="section-intro">
+      <div>
+       <h2>
+        Контакты управляющей компании
+       </h2>
+       <p>
+        Выберите удобный способ связи с нашей командой.
+       </p>
+      </div>
+     </header>
+     <section class="contact-grid" id="contactGrid">
+     </section>
+     <section class="panel contact-form-panel">
+      <header class="panel-header">
+       <div>
+        <h2>
+         Заказать обратный звонок
+        </h2>
+        <p>
+         Оставьте контакты, и специалист свяжется с вами.
+        </p>
+       </div>
+      </header>
+      <form id="callbackForm" novalidate="">
+       <section class="form-grid">
+        <label class="field">
+         <span>
+          Ваше имя *
+         </span>
+         <input autocomplete="name" maxlength="60" minlength="2" name="name" placeholder="Как к вам обращаться" required=""/>
+         <small class="field-error">
+         </small>
+        </label>
+        <label class="field">
+         <span>
+          Телефон *
+         </span>
+         <input autocomplete="tel" inputmode="tel" name="phone" placeholder="+7 (___) ___-__-__" required=""/>
+         <small class="field-error">
+         </small>
+        </label>
+        <label class="field full-field">
+         <span>
+          Вопрос *
+         </span>
+         <textarea maxlength="500" minlength="5" name="message" placeholder="Коротко опишите ваш вопрос" required="" rows="3"></textarea>
+         <small class="field-error">
+         </small>
+        </label>
+       </section>
+       <button class="button button-primary" type="submit">
+        Заказать звонок
+       </button>
+       <p class="form-note">
+        Нажимая кнопку, вы отправляете демонстрационную заявку внутри этой страницы.
+       </p>
+      </form>
+     </section>
+    </section>
+    <footer class="main-footer">
+     <span>
+      © 2026 ДомКонтроль
+     </span>
+     <span>
+      Демонстрационный проект · ЖКХ
+     </span>
+     <a data-view="contacts" href="#contacts">
+      Связаться с управляющей компанией
+     </a>
+    </footer>
+   </main>
+  </div>
+  <section class="modal-backdrop" hidden="" id="modalBackdrop">
+   <section aria-labelledby="modalTitle" aria-modal="true" class="modal" id="modal" role="dialog" tabindex="-1">
+    <header class="modal-header">
+     <div>
+      <p class="eyebrow">
+       ДОМКОНТРОЛЬ · ОБРАЩЕНИЯ
+      </p>
+      <h2 id="modalTitle">
+       Новое обращение
+      </h2>
+     </div>
+     <button aria-label="Закрыть окно" class="icon-button modal-close" id="modalClose">
+      ×
+     </button>
+    </header>
+    <form id="requestForm" novalidate="">
+     <section class="modal-body">
+      <label class="field">
+       <span>
+        Тема обращения *
+       </span>
+       <input maxlength="100" minlength="4" name="title" placeholder="Например, не горит свет в подъезде" required=""/>
+       <small class="field-error">
+       </small>
+      </label>
+      <label class="field">
+       <span>
+        Категория *
+       </span>
+       <select name="category" required="">
+        <option value="">
+         Выберите категорию
+        </option>
+        <option>
+         Сантехника
+        </option>
+        <option>
+         Электрика
+        </option>
+        <option>
+         Уборка и содержание
+        </option>
+        <option>
+         Лифты
+        </option>
+        <option>
+         Отопление
+        </option>
+        <option>
+         Начисления
+        </option>
+        <option>
+         Благоустройство
+        </option>
+        <option>
+         Другое
+        </option>
+       </select>
+       <small class="field-error">
+       </small>
+      </label>
+      <label class="field">
+       <span>
+        Описание *
+       </span>
+       <textarea maxlength="1000" minlength="10" name="description" placeholder="Опишите ситуацию подробнее" required="" rows="4"></textarea>
+       <small class="field-error">
+       </small>
+      </label>
+      <section class="form-grid">
+       <label class="field">
+        <span>
+         Место
+        </span>
+        <select name="location">
+         <option>
+          Квартира
+         </option>
+         <option>
+          Подъезд
+         </option>
+         <option>
+          Лифт
+         </option>
+         <option>
+          Двор
+         </option>
+         <option>
+          Подвал / техэтаж
+         </option>
+         <option>
+          Общедомовое помещение
+         </option>
+        </select>
+       </label>
+       <label class="field">
+        <span>
+         Приоритет
+        </span>
+        <select name="priority">
+         <option>
+          Обычный
+         </option>
+         <option>
+          Высокий
+         </option>
+         <option>
+          Низкий
+         </option>
+        </select>
+       </label>
+      </section>
+      <p class="form-note">
+       Поля со звёздочкой обязательны. Обращение сохранится в этом браузере.
+      </p>
+     </section>
+     <footer class="modal-footer">
+      <button class="button button-secondary" id="cancelRequest" type="button">
+       Отмена
+      </button>
+      <button class="button button-primary" type="submit">
+       Отправить обращение
+       <span>
+        →
+       </span>
+      </button>
+     </footer>
+    </form>
+   </section>
+  </section>
+  <section aria-atomic="false" aria-live="polite" class="toast-region" id="toastRegion">
+  </section>
+  <script src="data.js">
+  </script>
+  <script src="renderer.js">
+  </script>
+  <script src="app.js">
+  </script>
+ </body>
+</html>
+
